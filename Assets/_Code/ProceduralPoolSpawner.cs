@@ -10,12 +10,24 @@ namespace Latios
     {
         [SerializeField] private GameObject m_prefab;
         [SerializeField] private Transform m_pathGenerator;
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private float m_spawnRate = 1f;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private float m_minSpawnOffset = -6f;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private float m_maxSpawnOffset = -2f;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private float m_minSpawnAngle = -30f;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private float m_maxSpawnAngle = 30f;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private float m_scrollMultiplier = 1f;
+#pragma warning restore IDE0044 // Add readonly modifier
 
         private List<GameObject> m_pool;
         private List<GameObject> m_active;
