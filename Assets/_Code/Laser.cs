@@ -8,9 +8,15 @@ namespace Latios
     [AddComponentMenu("Gameplay/Controllers/Laser")]
     public class Laser : MonoBehaviour
     {
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private float m_laserStartTime = 0.1f;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private float m_laserHoldTime = 0.3f;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private float m_laserStopTime = 0.1f;
+#pragma warning restore IDE0044 // Add readonly modifier
         [SerializeField] private LayerMask m_laserHitLayerMask;  // Only objects with this layermask can be hit by the laser.
 
         private LineRenderer m_lineRenderer;
@@ -20,7 +26,9 @@ namespace Latios
         private bool m_firing;
 
         // Why can this not be a list? I have no idea. Hopefully 10000 is enough!
+#pragma warning disable IDE0044 // Add readonly modifier
         private RaycastHit2D[] m_hitsCache = new RaycastHit2D[10000];
+#pragma warning restore IDE0044 // Add readonly modifier
 
         private void Start()
         {

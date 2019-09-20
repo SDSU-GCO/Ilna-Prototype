@@ -22,9 +22,15 @@ namespace Latios
         }
 
         // Doubles are used extensively because the world moves around the camera and things can get far away from the origin.
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private double m_scrollStart = 0f;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private double m_scrollMultiplier = 1f;
+#pragma warning restore IDE0044 // Add readonly modifier
+#pragma warning disable IDE0044 // Add readonly modifier
         [SerializeField] private bool m_loop;
+#pragma warning restore IDE0044 // Add readonly modifier
         [SerializeField] private List<ScrollTileIngredient> m_tileIngredients;
 
         private struct ScrollTile
