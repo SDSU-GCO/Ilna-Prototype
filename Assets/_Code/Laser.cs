@@ -77,7 +77,9 @@ namespace Latios
                 yield return null;
 
                 // Because the world moves around the camera in this game, the target point needs to shift by the scroll speed
-                target.x -= (float)m_manager.scrollSpeed * Time.deltaTime;
+
+                //keep sub relative position until laser reaches full length
+                //target.x -= (float)m_manager.scrollSpeed * Time.deltaTime;
             }
 
             // Keep the laser on the target.
