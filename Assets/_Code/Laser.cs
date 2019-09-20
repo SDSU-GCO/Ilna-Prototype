@@ -8,16 +8,16 @@ namespace Latios
     [AddComponentMenu("Gameplay/Controllers/Laser")]
     public class Laser : MonoBehaviour
     {
-        [SerializeField] private float     m_laserStartTime = 0.1f;
-        [SerializeField] private float     m_laserHoldTime  = 0.3f;
-        [SerializeField] private float     m_laserStopTime  = 0.1f;
+        [SerializeField] private float m_laserStartTime = 0.1f;
+        [SerializeField] private float m_laserHoldTime = 0.3f;
+        [SerializeField] private float m_laserStopTime = 0.1f;
         [SerializeField] private LayerMask m_laserHitLayerMask;  // Only objects with this layermask can be hit by the laser.
 
         private LineRenderer m_lineRenderer;
-        private AudioSource  m_laserSound;
-        private Camera       m_camera;
-        private GameManager  m_manager;
-        private bool         m_firing;
+        private AudioSource m_laserSound;
+        private Camera m_camera;
+        private GameManager m_manager;
+        private bool m_firing;
 
         // Why can this not be a list? I have no idea. Hopefully 10000 is enough!
         private RaycastHit2D[] m_hitsCache = new RaycastHit2D[10000];
@@ -25,14 +25,14 @@ namespace Latios
         private void Start()
         {
             // Initialize the line renderer to just be the little glow point at the top of the sub.
-            m_lineRenderer               = GetComponent<LineRenderer>();
+            m_lineRenderer = GetComponent<LineRenderer>();
             m_lineRenderer.positionCount = 2;
             m_lineRenderer.SetPosition(0, transform.position);
             m_lineRenderer.SetPosition(1, transform.position);
 
             m_laserSound = GetComponent<AudioSource>();
-            m_camera     = Camera.main;
-            m_manager    = GameManager.gameManager;
+            m_camera = Camera.main;
+            m_manager = GameManager.gameManager;
         }
 
         private void Update()
@@ -50,7 +50,7 @@ namespace Latios
             }
         }
 
-        IEnumerator FireLaser()
+        private IEnumerator FireLaser()
         {
             m_firing = true;
             m_laserSound.Play();
@@ -62,7 +62,7 @@ namespace Latios
             float t = 0f;
             for (; t < m_laserStartTime; t += Time.deltaTime)
             {
-                float3 origin   = transform.position;
+                float3 origin = transform.position;
                 float3 position = math.lerp(origin, target, t / m_laserStartTime);
                 m_lineRenderer.SetPosition(1, position);
                 CheckHits(origin.xy, position.xy);
@@ -86,7 +86,7 @@ namespace Latios
             // Interpolate to retract the laser.
             for (t -= m_laserHoldTime; t < m_laserStopTime; t += Time.deltaTime)
             {
-                float3 origin   = transform.position;
+                float3 origin = transform.position;
                 float3 position = math.lerp(target, origin, t / m_laserStartTime);
                 m_lineRenderer.SetPosition(1, position);
                 CheckHits(origin.xy, position.xy);
@@ -103,14 +103,14 @@ namespace Latios
             // Create a circle with the diameter set to the line width.
             // Send it across the laser's path and collect all the objects it hits.
             float radius = m_lineRenderer.startWidth / 2f;
-            int   count  = Physics2D.CircleCastNonAlloc(a, radius, b - a, m_hitsCache, math.distance(a, b), m_laserHitLayerMask);
+            int count = Physics2D.CircleCastNonAlloc(a, radius, b - a, m_hitsCache, math.distance(a, b), m_laserHitLayerMask);
             for (int i = 0; i < count; i++)
             {
                 // Let each object decide how to handle being hit by the laser if it cares.
-                var hit = m_hitsCache[i];
+                RaycastHit2D hit = m_hitsCache[i];
                 m_hitableCache.Clear();
                 hit.collider.GetComponents(m_hitableCache);
-                foreach (var hitable in m_hitableCache)
+                foreach (IHitableByLaser hitable in m_hitableCache)
                 {
                     hitable?.ProcessHitByLaser();
                 }
@@ -118,4 +118,3 @@ namespace Latios
         }
     }
 }
-
