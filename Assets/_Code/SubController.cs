@@ -59,6 +59,8 @@ namespace Latios
             // Todo: Use slider joint connected to the camera instead?
             float2 position = m_rigidbody.position;
             bool2  clamp    = position + m_aabb.xy < m_playableAreaAabb.xy | position + m_aabb.zw > m_playableAreaAabb.zw;
+            position = math.clamp(position, m_playableAreaAabb.xy - m_aabb.xy, m_playableAreaAabb.zw - m_aabb.zw);
+            m_rigidbody.position = position;
             velocity        = math.select(velocity, float2.zero, clamp);
 
             // We let Physics drive the submarine movement.
